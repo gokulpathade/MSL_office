@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;com.konarch.repository.Hoto&apos; to &apos;HotoRepository&apos;&#x0D;&#x0A;- Original project: &apos;MadhubanSuperStructure&apos;&#x0D;&#x0A;- Original element: &apos;com.konarch.repository.Hoto&apos;&#x0D;&#x0A;- Renamed element: &apos;com.konarch.repository.HotoRepository&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Hoto&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.konarch.repository{Hoto.java[Hoto" matchStrategy="1" name="HotoRepository" qualified="false" references="true" similarDeclarations="false" stamp="1720263873190" textual="false" version="1.0"/>
+</session>

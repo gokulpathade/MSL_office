@@ -1,0 +1,54 @@
+package com.konarch.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.konarch.model.Hoto;
+import com.konarch.service.HotoService;
+
+@RestController
+@RequestMapping("/api")
+public class HotoController {
+
+    @Autowired
+    private HotoService hotoService;
+
+    @PostMapping
+    public Hoto createHoto(@Validated @RequestBody Hoto hoto) {
+        return hotoService.saveHoto(hoto);
+    }
+
+    @GetMapping
+    public List<Hoto> getAllHotos() {
+        return hotoService.getAllHotos();
+    }
+
+    @GetMapping("/hotogetall/{id}")
+    public ResponseEntity<Hoto> getHotoById(@PathVariable(value = "id") int id) {
+        Hoto hoto = hotoService.getHotoById(id).orElseThrow(() -> new RuntimeException("Hoto not found for this id :: " + id));
+        return ResponseEntity.ok().body(hoto);
+    }
+
+    @PutMapping("/hotoupdate/{id}")
+    public ResponseEntity<Hoto> updateHoto(@PathVariable(value = "id") int id, @Validated @RequestBody Hoto hotoDetails) {
+        Hoto updatedHoto = hotoService.updateHoto(id, hotoDetails);
+        return ResponseEntity.ok(updatedHoto);
+    }
+
+    @DeleteMapping("/hotodelete/{id}")
+    public ResponseEntity<Void> deleteHoto(@PathVariable(value = "id") int id) {
+        hotoService.deleteHoto(id);
+        return ResponseEntity.noContent().build();
+    }
+}

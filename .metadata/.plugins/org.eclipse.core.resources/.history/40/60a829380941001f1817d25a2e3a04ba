@@ -1,0 +1,5 @@
+package com.vm.model.service;
+
+public class VendorService {
+
+}

@@ -1,0 +1,77 @@
+package com.vm.model.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.vm.model.User;
+import com.vm.model.repository.UserRepository;
+
+@Service
+public class UserService {
+
+	
+	
+	  @Autowired
+	    private UserRepository userRepository;
+
+	    public List<User> getAllUsers() {
+	        return userRepository.findAll();
+	    }
+
+	    public User getUserById(Long id) {
+	        return userRepository.findById(id).orElse(null);
+	    }
+
+	    public User saveUser(User User) {
+	        return userRepository.save(User);
+	    }
+
+	    public User updateUser(Long id, User UserDetails) {
+	        User User = userRepository.findById(id).orElse(null);
+
+	        if (User != null) {
+	            User.setName(UserDetails.getName());
+	            User.setDesignation(UserDetails.getDesignation());
+	            User.setCtc(UserDetails.getCtc());
+	            User.setEmail(UserDetails.getEmail());
+	            return userRepository.save(User);
+	        }
+	        return null;
+	    }
+
+	    public void deleteUser(Long id) {
+	        UserRepository.deleteById(id);
+	    }  @Autowired
+	    private UserRepository UserRepository;
+
+	    public List<User> getAllUsers() {
+	        return UserRepository.findAll();
+	    }
+
+	    public User getUserById(Long id) {
+	        return UserRepository.findById(id).orElse(null);
+	    }
+
+	    public User saveUser(User User) {
+	        return UserRepository.save(User);
+	    }
+
+	    public User updateUser(Long id, User UserDetails) {
+	        User User = userRepository.findById(id).orElse(null);
+
+	        if (User != null) {
+	            User.setName(UserDetails.getName());
+	            User.setDesignation(UserDetails.getDesignation());
+	            User.setCtc(UserDetails.getCtc());
+	            User.setEmail(UserDetails.getEmail());
+	            return userRepository.save(User);
+	        }
+	        return null;
+	    }
+
+	    public void deleteUser(Long id) {
+	    	userRepository.deleteById(id);
+	    }
+}

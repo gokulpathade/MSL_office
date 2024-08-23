@@ -1,0 +1,49 @@
+package com.vm.model.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.vm.model.User;
+import com.vm.model.repository.UserRepository;
+
+
+
+@Service
+public class UserService {
+	
+	
+	
+	@Autowired
+	    private UserRepository employeeRepository;
+
+	    public List<User> getAllEmployees() {
+	        return employeeRepository.findAll();
+	    }
+
+	    public User getEmployeeById(Long id) {
+	        return employeeRepository.findById(id).orElse(null);
+	    }
+
+	    public User saveEmployee(User employee) {
+	        return employeeRepository.save(employee);
+	    }
+
+	    public User updateEmployee(Long id, User employeeDetails) {
+	    	User employee = employeeRepository.findById(id).orElse(null);
+
+	        if (employee != null) {
+	            employee.setName(employeeDetails.getName());
+	            employee.setDesignation(employeeDetails.getDesignation());
+	            employee.setCtc(employeeDetails.getCtc());
+	            employee.setEmail(employeeDetails.getEmail());
+	            return employeeRepository.save(employee);
+	        }
+	        return null;
+	    }
+
+	    public void deleteEmployee(Long id) {
+	        employeeRepository.deleteById(id);
+	    }
+}

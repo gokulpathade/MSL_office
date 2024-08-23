@@ -1,0 +1,19 @@
+package com.vm.model.controller;
+
+@RestController
+@RequestMapping("/api/vendors")
+public class VendorController {
+    @Autowired
+    private VendorService vendorService;
+
+    @PostMapping
+    public ResponseEntity<Vendor> createVendor(@Validated @RequestBody Vendor vendor) {
+        Vendor savedVendor = vendorService.saveVendor(vendor);
+        return ResponseEntity.ok(savedVendor);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Vendor>> getAllVendors() {
+        List<Vendor> vendors = vendorService.getAllVendors();
+        return ResponseEntity.ok(vendors);
+    }

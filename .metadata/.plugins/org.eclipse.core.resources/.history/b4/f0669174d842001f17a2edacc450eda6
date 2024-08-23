@@ -1,0 +1,75 @@
+package com.vm.model.controller;
+
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.vm.model.Email;
+import com.vm.model.Vendor;
+import com.vm.model.service.EmailService;
+
+@RestController
+@CrossOrigin("*")
+@RequestMapping("/api")
+public class EmailController {
+
+
+    @Autowired
+    private EmailService emailService;
+
+    @GetMapping("/getallemail")
+    public ResponseEntity<List<Email>> getAllEmails() {
+        List<Email> emails = emailService.getAllEmails();
+        return ResponseEntity.ok(emails);
+    }
+
+    @GetMapping("/getemail/{id}")
+    public ResponseEntity<Email> getEmailById(@PathVariable("id") Long id) {
+        Optional<Email> email = emailService.getEmailById(id);
+        return email.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/send")
+    public ResponseEntity<Email> createEmail(@RequestBody Vendor vendor, @RequestBody Email email) {
+        try {
+            // Use the service to send the email
+            emailService.sendEmail(email.getRecipient(), vendor.getName(), vendor.getUpi());
+            
+            // Save the email entity to the database
+            Email createdEmail = emailService.saveEmail(email); // Assuming this method exists
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdEmail);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log error
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PutMapping("/updateemail/{id}")
+    public ResponseEntity<Email> updateEmail(@PathVariable("id") Long id, @RequestBody Email updatedEmail) {
+        Optional<Email> existingEmail = emailService.getEmailById(id);
+        if (existingEmail.isPresent()) {
+            updatedEmail.setId(id);
+            Email savedEmail = emailService.saveEmail(updatedEmail);
+            return ResponseEntity.ok(savedEmail);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/deleteemail/{id}")
+    public ResponseEntity<Void> deleteEmail(@PathVariable("id") Long id) {
+        Optional<Email> email = emailService.getEmailById(id);
+        if (email.isPresent()) {
+            emailService.deleteEmail(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

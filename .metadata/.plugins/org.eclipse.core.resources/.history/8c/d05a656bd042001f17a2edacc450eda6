@@ -1,0 +1,29 @@
+package com.vm.model.controller;
+
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.vm.model.Vendor;
+import com.vm.model.service.EmailService;
+
+@RestController
+@CrossOrigin("*")
+@RequestMapping("/api")
+public class EmailController {
+
+	  @Autowired
+	    private EmailService emailService;
+
+	    // Existing endpoints...
+
+	    @PostMapping("/send")
+	    public ResponseEntity<String> sendBulkEmail(@RequestBody List<Vendor> vendors) {
+	        emailService.sendBulkEmails(vendors);
+	        return ResponseEntity.ok("Emails sent successfully");
+	    }
+}

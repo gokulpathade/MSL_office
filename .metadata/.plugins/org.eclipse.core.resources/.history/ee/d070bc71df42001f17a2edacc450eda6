@@ -1,0 +1,21 @@
+package com.vm.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@Setter
+@Getter
+@AllArgsConstructor
+
+public class EmailDto {
+	 
+	private Long id;
+	    private VendorDto vendor;
+	    private UserDto user; // New field
+	    private String recipientEmail;
+}

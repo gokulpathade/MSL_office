@@ -1,0 +1,66 @@
+package com.vm.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
+@Entity
+public class Vendor {
+	 
+	
+	
+	
+	@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+
+	    @NotEmpty(message = "Name is required")
+	    private String name;
+
+	    @Email(message = "Email should be valid")
+	    @NotEmpty(message = "Email is required")
+	    private String email;
+
+	    @NotEmpty(message = "UPI is required")
+	    private String upi;
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    public Vendor() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
+	    
+	    
+	    
+}

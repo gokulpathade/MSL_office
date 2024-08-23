@@ -1,0 +1,8 @@
+package com.vm.model.controller;
+
+
+@RestController
+@RequestMapping("/api/vendors")
+public class VendorController {
+  
+    }

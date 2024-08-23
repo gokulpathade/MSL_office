@@ -1,0 +1,31 @@
+package com.vm.model.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.vm.model.Vendor;
+import com.vm.model.service.EmailService;
+
+import jakarta.mail.MessagingException;
+
+@RestController
+@RequestMapping("/api/emails")
+public class EmailController {
+
+    @Autowired
+    private EmailService emailService;
+
+    @PostMapping("/send")
+    public ResponseEntity<String> sendEmailToVendor(@RequestBody Vendor vendor, @RequestParam String subject, @RequestParam String body) {
+        try {
+            emailService.sendEmail(vendor.getEmail(), subject, body);
+            return new ResponseEntity<>("Email sent and stored successfully", HttpStatus.OK);
+        } catch (MessagingException e) {
+            return new ResponseEntity<>("Error sending email: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}

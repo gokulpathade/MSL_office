@@ -1,0 +1,23 @@
+package com.vm.model;
+
+public class EmailRequest {
+    private Vendor vendor;
+    private Email email;
+
+    // Getters and setters
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+}

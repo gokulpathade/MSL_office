@@ -1,0 +1,32 @@
+package com.vm.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
+public class Email {
+
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+
+	    @ManyToOne
+	    @JoinColumn(name = "vendor_id")
+	    private Vendor vendor;
+
+	    @ManyToOne
+	    @JoinColumn(name = "user_id") // Assuming a User can send the email
+	    private User user;
+
+	    private String recipientEmail;
+
+	    
+	    
+	    
+}

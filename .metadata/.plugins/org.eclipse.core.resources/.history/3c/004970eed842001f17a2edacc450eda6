@@ -1,0 +1,110 @@
+package com.vm.model.service;
+
+
+
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
+import com.vm.model.Email;
+import com.vm.model.Vendor;
+import com.vm.model.repository.EmailRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+
+
+
+@Service
+public class EmailService {
+	  @Autowired
+	    private EmailRepository emailRepository;
+	    
+	    @Autowired
+	    private JavaMailSender emailSender;
+
+	    public void sendEmail(String to, String name, String upi) {
+	        String subject = "Payment Notification";
+	        String message = String.format("Sending payments to vendor %s at UPI %s", name, upi);
+
+	        // Send the email
+	        SimpleMailMessage emailMessage = new SimpleMailMessage();
+	        emailMessage.setTo(to);
+	        emailMessage.setSubject(subject);
+	        emailMessage.setText(message);
+	        
+	        emailSender.send(emailMessage);
+	        
+	        // Save email details to the database
+	        Email email = new Email();
+	        email.setRecipient(to);
+	        email.setSubject(subject);
+	        email.setMessage(message);
+	        
+	        emailRepository.save(email);
+	    }
+
+    public void sendBulkEmails(List<Vendor> vendors) {
+        for (Vendor vendor : vendors) {
+            sendEmail(vendor.getEmail(), vendor.getName(), vendor.getUpi());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+     
+     
+     
+     
+
+     
+     
+     
+     public List<Email> getAllEmails() {
+         return emailRepository.findAll();
+     }
+
+     
+     
+     
+     public Optional<Email> getEmailById(Long id) {
+         return emailRepository.findById(id);
+     }
+
+     
+     
+     
+     public Email saveEmail(Email email) {
+         return emailRepository.save(email);
+     }
+
+     
+     
+     
+     public void deleteEmail(Long id) {
+         emailRepository.deleteById(id);
+     }
+  
+
+
+    
+    
+    
+    
+    
+    
+    
+}

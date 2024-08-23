@@ -1,0 +1,132 @@
+import React from 'react';
+import { TextField, Button, Container, Typography } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+const RegisterForm = () => {
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            designation: '',
+            ctc: '',
+            email: '',
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required('Name is required'),
+            designation: Yup.string().required('Designation is required'),
+            ctc: Yup.number().required('CTC is required').positive('CTC must be positive'),
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+        }),
+        onSubmit: async (values, { setSubmitting, setErrors }) => {
+            try {
+                const response = await fetch('/api/employees', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(values),
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    setErrors({ apiError: errorData.message });
+                } else {
+                    // Handle success
+                }
+            } catch (error) {
+                setErrors({ apiError: 'Something went wrong. Please try again.' });
+            } finally {
+                setSubmitting(false);
+            }
+        },
+    });
+
+    return (
+        <Container>
+            <Typography variant="h4">Create Employee</Typography>
+            <form onSubmit={formik.handleSubmit}>
+                <TextField
+                    name="name"
+                    label="Name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    name="designation"
+                    label="Designation"
+                    value={formik.values.designation}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.designation && Boolean(formik.errors.designation)}
+                    helperText={formik.touched.designation && formik.errors.designation}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    name="ctc"
+                    label="CTC"
+                    value={formik.values.ctc}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.ctc && Boolean(formik.errors.ctc)}
+                    helperText={formik.touched.ctc && formik.errors.ctc}
+                    fullWidth
+                    margin="normal"
+                />
+                <TextField
+                    name="email"
+                    label="Email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    fullWidth
+                    margin="normal"
+                />
+                {formik.errors.apiError && (
+                    <Typography color="error">{formik.errors.apiError}</Typography>
+                )}
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={formik.isSubmitting}
+                    fullWidth
+                >
+                    Save Employee
+                </Button>
+            </form>
+        </Container>
+    );
+};
+
+export default RegisterForm;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
